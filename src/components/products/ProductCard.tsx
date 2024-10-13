@@ -2,15 +2,18 @@ import Image from "next/image";
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import React, { forwardRef } from "react";
+import {cva} from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
     product: any;
 }
 
+const productCardVariants = cva(['cursor-pointer'])
+
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ product, className, ...props }, ref) => {
     return (
-        <Card className={cn(className)} {...props}>
+        <Card className={cn(productCardVariants(), className)} {...props}>
             <CardHeader className="border-b border-slate-200">
                 <div className="relative h-48">
                     <Image fill src="/imgs/demo-product-2.png" alt="product image" className="w-full object-cover" />

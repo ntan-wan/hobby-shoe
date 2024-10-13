@@ -3,6 +3,8 @@ import { cva, VariantProps } from "class-variance-authority";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Instagram } from "@/components/icons/Instagram";
+import { Facebook } from "@/components/icons/Facebook";
 
 interface LayoutFooterProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof footerVariants> {}
 
@@ -41,6 +43,12 @@ export const LayoutFooter = ({ className, ...props }: LayoutFooterProps) => {
         { id: "allClothing", label: "All Clothing" },
         { id: "allAccessories", label: "All Accessories" },
     ];
+	   
+	const socials = [
+		{id: 'insta' , label: 'Instagram', icon: <Instagram  fill="white"/>},
+		{id: 'facebook' , label: 'Facebook', icon: <Facebook  fill="white"/>},
+	]
+
     return (
         <footer className={cn(footerVariants(), className)} {...props}>
             <div className="flex flex-wrap -m-2">
@@ -76,8 +84,16 @@ export const LayoutFooter = ({ className, ...props }: LayoutFooterProps) => {
                         <Input placeholder="Enter your email address" />
                         <Button>Sign up</Button>
                     </div>
+					<div className="mt-4 flex items-center gap-2">
+						{socials.map((item) => (
+							<Button variant="ghost" className="hover:bg-transparent" size="icon" key={item.id}>
+								{item.icon}
+							</Button>
+						))}
+					</div>
                 </div>
             </div>
+
             <div className="mt-16 text-center">
 				<p className="text-sm">Malaysia | MYR</p>
 				<p className="mt-4">COPYRIGHT &copy; 2024 SHOES.MY ALL RIGHT RESERVED</p>

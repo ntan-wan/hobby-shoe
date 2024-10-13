@@ -41,6 +41,7 @@ body {
     --radius: 0.5rem;
 
 	--navbar-height: 69px;
+	--color-highlight: 251 191 36;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -100,5 +101,27 @@ body {
 	}
 	.c-footer-item {
 		@apply text-sm;
+	}
+
+	.c-icon {
+		@apply w-8 h-8;
+	}
+
+	.c-product-box {
+		@apply border border-gray-300 rounded-md;
+	}
+
+	.c-option {
+		@apply border border-gray-300 rounded-md flex items-center justify-center p-2
+	}
+
+	.c-label {
+		@apply mb-1 block;
+	}
+}
+
+@layer utilities {
+	.c-highlight {
+
 	}
 }
