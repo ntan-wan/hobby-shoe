@@ -118,6 +118,10 @@ body {
 	.c-label {
 		@apply mb-1 block;
 	}
+
+	.c-box {
+		@apply border border-gray-300 rounded-md p-4;
+	}
 }
 
 @layer utilities {

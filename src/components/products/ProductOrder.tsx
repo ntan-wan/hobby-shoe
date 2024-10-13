@@ -99,8 +99,8 @@ export const ProductOrder = forwardRef(({ ...props }, ref) => {
 
             {/* Buy */}
             <div className="flex items-center gap-2 mt-auto">
-                <Button className="w-full" variant="outline">Buy Now</Button>
-                <Button className="w-full">Add to Cart</Button>
+                <Button className="w-full p-6" variant="outline">Buy Now</Button>
+                <Button className="w-full p-6">Add to Cart</Button>
             </div>
         </div>
     );
