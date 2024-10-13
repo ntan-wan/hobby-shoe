@@ -39,6 +39,8 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+	--navbar-height: 69px;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -72,7 +74,15 @@ body {
   * {
     @apply border-border;
   }
+
+  html, body { 
+	height: 100%;
+	min-height: calc(100vh - var(--navbar-height));
+  }
+
   body {
+	display: flex;
+	flex-direction: column;
     @apply bg-background text-foreground;
   }
 }
@@ -80,5 +90,15 @@ body {
 @layer components {
 	.c-brand {
 		@apply font-bold text-xl;
+	}
+
+	.c-footer-label {
+		@apply font-bold;
+	}
+	.c-footer-container-item {
+		@apply flex flex-col gap-2;
+	}
+	.c-footer-item {
+		@apply text-sm;
 	}
 }

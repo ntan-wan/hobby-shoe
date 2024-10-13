@@ -14,7 +14,7 @@ interface MenuItems {
     children?: MenuItems[];
 }
 
-const navbarVariants = cva(["flex items-center justify-between p-4 border-b border-b-slate-300"], {
+const navbarVariants = cva(["flex items-center justify-between p-4 border-b border-b-slate-300 bg-white"], {
     variants: {
         variant: {
             default: "",
