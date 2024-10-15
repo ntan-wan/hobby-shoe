@@ -5,6 +5,7 @@ import { ProductSuggestions } from "@/components/products/ProductSuggesstions";
 
 export default function ProductDetailPage() {
     // images: ["/imgs/demo-product-3.png", "/imgs/demo-product-4.png"],
+	//TESTING
     const data = {
         id: 1,
         brand: "New Balance",
