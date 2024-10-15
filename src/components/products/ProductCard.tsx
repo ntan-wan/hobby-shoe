@@ -2,34 +2,44 @@ import Image from "next/image";
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import React, { forwardRef } from "react";
-import {cva} from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { Rating } from "@/components/ui/Rating";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
     product: any;
 }
 
-const productCardVariants = cva(['cursor-pointer'])
+const productCardVariants = cva(["cursor-pointer hover:border-gray-400 transition-colors"]);
 
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ product, className, ...props }, ref) => {
     return (
         <Card className={cn(productCardVariants(), className)} {...props}>
             <CardHeader className="border-b border-slate-200">
                 <div className="relative h-48">
-                    <Image fill src="/imgs/demo-product-2.png" alt="product image" className="w-full object-cover" />
+                    <Image fill src={product?.thumbnail ?? "/imgs/product-placeholder.png"} alt="product image" className="w-full object-cover" sizes="(min-width: 1024px) 16vw , 100vw"/>
                 </div>
             </CardHeader>
-            <CardContent className="pt-2">
-                <p>{product?.brand ?? "-"}</p>
-                <p>{product?.name ?? "-"}</p>
-                <p>{product?.category ?? "-"}</p>
-                <p>{product?.color ?? "-"}</p>
-                <p>
-                    <span>{product?.price ?? "-"}</span>
-                </p>
+            <CardContent className="pt-2 text-sm">
+                <p className="font-bold uppercase">{product?.brand ?? "-"}</p>
+                <p className="mt-1 font-bold uppercase">{product?.name ?? "-"}</p>
+                <p className="mt-1">{product?.categories?.map((category) => category.name).join(", ") ?? "-"}</p>
+                <p className="mt-1"><span className="font-bold">Color:</span> {product?.color ?? "-"}</p>
+
+                <div className="mt-1 flex gap-2 items-center">
+                    {/* Current price */}
+                    <p className="text-red-700 font-bold text-lg">
+                        <span>{(product?.currency ?? "-") + ' ' + (product?.currentPrice?.toFixed(2) ?? '-')}</span>
+                    </p>
+
+                    {/* Prev Price */}
+                    <p className="line-through text-sm">
+                        <span>{(product?.currency ?? "-") + ' ' + (product?.prevPrice?.toFixed(2) ?? '-')}</span>
+                    </p>
+                </div>
             </CardContent>
-            <CardFooter>
-                <p>{product?.rating ?? "-"}</p>
+            <CardFooter className="flex gap-2">
+                <Rating score={product.rating} /> <span>({product?.rating})</span>
             </CardFooter>
         </Card>
     );

@@ -13,7 +13,7 @@ const ProductBoxVariants = cva(["border border-gray-300 rounded-md relative w-20
 const ProductBox = ({ imgUrl, className, children, ...props }: ProductBoxProps) => {
     return (
         <div className={cn(ProductBoxVariants(), className)} {...props}>
-            {imgUrl && <Image fill src={imgUrl} alt="product image" className="w-full object-cover z-[-1]" />}
+            {imgUrl && <Image fill src={imgUrl} alt="product image" className="w-full object-cover z-[-1]" sizes="(min-width: 1024px) 6vw , 100vw" />}
             {children}
         </div>
     );
@@ -66,7 +66,7 @@ export const CustomCarousel = forwardRef<HTMLDivElement, CustomCarouselProps>(({
                             {urls?.map((url) => (
                                 <CarouselItem className="flex justify-center" key={url}>
                                     <div className="relative min-w-[708px] min-h-[708px]">
-                                        <Image fill src={url} alt="product image" className="w-full object-cover" />
+                                        <Image fill src={url} alt="product image" className="w-full object-cover" sizes="(min-width: 1024px) 50vw , 100vw" priority/>
                                     </div>
                                 </CarouselItem>
                             ))}

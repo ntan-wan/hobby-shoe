@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 const bannerVariants = cva(["flex items-center gap-4 border border-gray-300 rounded-md p-3"], {
 	variants: {
 		variant: {
-			default: "text-primary"
+			default: ""
 		}
 	},
 	defaultVariants: {
