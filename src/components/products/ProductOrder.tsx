@@ -14,22 +14,34 @@ interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
     product: any;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
+
     const [selectedUOM, setSelectedUOM] = useState("US");
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
 
-    const uom = Array.from(new Set(product.sizes.map((size) => size.uom)));
-    const availableSize = product?.sizes?.find((option) => option.size == selectedSize && option.uom == selectedUOM);
+    const uom = Object.keys(product?.sizes ?? {});
+    const availableSize = product?.sizes[selectedUOM].find((s) => s.size == selectedSize) ?? [];
+	let prevPrice = null;
+	let currentPrice = null;
 
-    const handleSelectUOM = (value: string) => {
-        setSelectedUOM(value);
+	product?.prices?.forEach((p) => {
+		if (p.endDate === null) {
+			currentPrice = p.price.toFixed(2);
+		} else {
+			prevPrice = p.price.toFixed(2);
+		}
+	})
+
+    const handleSelectUOM = (uom: string) => {
+        setSelectedUOM(uom);
+		setSelectedSize(product?.sizes[uom][0]?.size ?? 0);
     };
-	const handleSelectSize = (value : number | string ) => {
-		setSelectedSize(value);
-	}
-	const handleSelectQuantity = (value: string) => {
-		setQuantity(value);
-	}
+    const handleSelectSize = (value: number | string) => {
+        setSelectedSize(value);
+    };
+    const handleSelectQuantity = (value: string) => {
+        setQuantity(value);
+    };
 
     return (
         <div className={cn(ProductOrderVariants())}>
@@ -41,10 +53,10 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             </p>
             <p className="text-2xl mt-4 flex items-center gap-2">
                 <span className="font-bold text-red-700">
-                    {product?.currency} {product?.currentPrice?.toFixed(2)}
+                    {product?.currency} {currentPrice ?? '-'}
                 </span>
                 <span className="line-through text-base">
-                    {product?.currency} {product?.prevPrice?.toFixed(2)}
+                    {product?.currency} {prevPrice ?? '-'}
                 </span>
             </p>
 
@@ -65,14 +77,14 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                 </SelectContent>
             </Select>
 
-			{/* Size */}
+            {/* Size */}
             <div className="mt-2 flex flex-wrap -m-2">
-                {product.sizes
-                    .filter((size) => size.uom == selectedUOM)
-                    .map((option) => (
-                        <div className="w-full lg:w-3/12 p-2" key={option.size}>
-                            <Button  className={cn('w-full', selectedSize == option.size ? "c-highlight" : "")} variant="outline" onClick={() => handleSelectSize(option.size)}>
-                                {option.size}
+                {product.sizes[selectedUOM]
+                    ?.map((s) => s.size)
+                    ?.map((size) => (
+                        <div className="w-full lg:w-3/12 p-2" key={size}>
+                            <Button className={cn("w-full", selectedSize == size ? "c-highlight" : "")} variant="outline" onClick={() => handleSelectSize(size)}>
+                                {size}
                             </Button>
                         </div>
                     ))}
