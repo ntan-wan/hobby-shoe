@@ -36,8 +36,8 @@ export const ProductSuggestions = ({className, ...props} : ProductSuggesstionsPr
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
+                <CarouselPrevious  className="left-[-12px]"/>
+                <CarouselNext  className="right-[-12px]"/>
             </Carousel>
         </div>
     );

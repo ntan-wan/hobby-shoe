@@ -16,7 +16,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ produ
     return (
         <Card className={cn(productCardVariants(), className)} {...props}>
             <CardHeader className="border-b border-slate-200">
-                <div className="relative h-48">
+                <div className="relative h-52">
                     <Image fill src={product?.thumbnail ?? "/imgs/product-placeholder.png"} alt="product image" className="w-full object-cover" sizes="(min-width: 1024px) 16vw , 100vw"/>
                 </div>
             </CardHeader>

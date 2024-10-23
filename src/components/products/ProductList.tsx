@@ -29,7 +29,7 @@ export const ProductList = () => {
         select: (res) => res?.data,
         queryFn: getProducts,
     });
-
+	
     /* EVENT HANDLERS */
     const handleSelectProduct = (productId: string | number) => {
         router.push(`/products/${productId}`);

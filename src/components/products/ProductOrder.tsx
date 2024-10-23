@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, sleep } from "@/lib/utils";
 import { forwardRef, useState } from "react";
 import { cva } from "class-variance-authority";
 import { Rating } from "@/components/ui/Rating";
@@ -18,6 +18,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
     const [selectedUOM, setSelectedUOM] = useState("US");
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
+	const [loading, setLoading] = useState(false);
 
     const uom = Object.keys(product?.sizes ?? {});
     const availableSize = product?.sizes[selectedUOM].find((s) => s.size == selectedSize) ?? [];
@@ -42,6 +43,11 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
     const handleSelectQuantity = (value: string) => {
         setQuantity(value);
     };
+	const handleAddItem = async () => {
+		setLoading(true);
+		await sleep(500);
+		setLoading(false);
+	}
 
     return (
         <div className={cn(ProductOrderVariants())}>
@@ -112,7 +118,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                 <Button className="w-full p-6" variant="outline">
                     Buy Now
                 </Button>
-                <Button className="w-full p-6">Add to Cart</Button>
+                <Button loading={loading} onClick={handleAddItem} className="w-full p-6">Add to Cart</Button>
             </div>
         </div>
     );

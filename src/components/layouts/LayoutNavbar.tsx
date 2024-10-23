@@ -3,9 +3,10 @@ import { forwardRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, ShoppingCart } from "lucide-react";
+import { Search} from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import { CartPreview } from "../cart/CartPreview";
+import Link from "next/link";
 
 interface LayoutNavbarProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof navbarVariants> {}
 interface MenuItems {
@@ -14,7 +15,7 @@ interface MenuItems {
     children?: MenuItems[];
 }
 
-const navbarVariants = cva(["flex items-center justify-between p-4 border-b border-b-slate-300 bg-white"], {
+const navbarVariants = cva(["flex items-center justify-between p-4 px-10 border-b border-b-slate-300 bg-white"], {
     variants: {
         variant: {
             default: "",
@@ -45,7 +46,7 @@ export const LayoutNavbar = forwardRef<HTMLDivElement, LayoutNavbarProps>(({ cla
 
     return (
         <nav ref={ref} className={cn(navbarVariants(), className)} {...props}>
-            <div className="c-brand">BRAND</div>
+            <div><Link href="/products" className="c-brand">BRAND</Link> </div>
 
             <div>
                 <NavigationMenu>
@@ -60,12 +61,12 @@ export const LayoutNavbar = forwardRef<HTMLDivElement, LayoutNavbarProps>(({ cla
                 </NavigationMenu>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
 				<div className="relative">
 					<Input placeholder="Search..." type="text" className="w-44 pl-8"/>
 					<Search size={16}  className="absolute left-[8px] top-[10px]"/>
 				</div>
-				<Button variant="ghost" size="icon"><ShoppingCart size={16}/></Button>
+				<CartPreview />
 			</div>
         </nav>
     );
