@@ -7,6 +7,7 @@ import { getProducts } from "@/servicesFrontend/product.service";
 import { CircleX } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/components/products/ProductCard";
+import { Product } from "@/lib/types";
 
 interface FilterBadegeProps extends React.HTMLAttributes<HTMLDivElement> {
     label: string;
@@ -14,7 +15,7 @@ interface FilterBadegeProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 const FilterBadege = ({ label, onRemove, ...props }: FilterBadegeProps) => {
     return (
-        <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 w-fit">
+        <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 w-fit" {...props}>
             <p>{label}</p>
             <CircleX size={16} onClick={onRemove} />
         </div>
@@ -55,7 +56,7 @@ export const ProductList = () => {
 
             <div className="mt-2 flex flex-wrap items-center -m-2">
                 {products?.length ? (
-                    products?.map((product) => (
+                    products?.map((product : Product) => (
                         <div key={product.id} className="p-2  w-full lg:w-3/12">
                             <ProductCard product={product} onClick={() => handleSelectProduct(product.id)} />
                         </div>

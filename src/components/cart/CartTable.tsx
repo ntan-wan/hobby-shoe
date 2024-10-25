@@ -1,19 +1,19 @@
-import { forwardRef } from "react";
-import { cva } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { forwardRef } from "react";
+import { cn } from "@/lib/utils";
+import { CartItem } from "@/lib/types";
 import { Pencil, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { CustomQuantitySelector } from "@/components/ui/CustomQuantitySelector";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface CartTableProps extends React.HTMLAttributes<HTMLTableElement> {
-    cartItems: any[];
+    cartItems: CartItem[];
 }
 
 export const CartTable = forwardRef<HTMLTableElement, CartTableProps>(({ cartItems, className, ...props }, ref) => {
     return (
-        <Table {...props} className={cn(className)}>
+        <Table {...props} className={cn(className)} ref={ref}>
             <TableCaption>A list of your cart items.</TableCaption>
             <TableHeader>
                 <TableRow>
@@ -43,11 +43,11 @@ export const CartTable = forwardRef<HTMLTableElement, CartTableProps>(({ cartIte
 
                                 {/* Item details */}
                                 <div>
-                                    <p className="font-bold">{item.brand}</p>
-                                    <p>{item.name}</p>
+                                    <p className="font-bold">{item.product.brand}</p>
+                                    <p>{item.product.name}</p>
                                     <p>
                                         <span className="font-bold">Size: </span> 
-										{item.product?.size?.value ?? "-"}
+										{item.size ?? "-"}
                                     </p>
 
                                     {/* Action buttons */}

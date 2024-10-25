@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-export const CartSummary = forwardRef(({ ...props }, ref) => {
+export const CartSummary = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ ...props }, ref) => {
     return (
-        <Card>
+        <Card {...props} ref={ref}>
             <CardHeader>
                 <CardTitle className="text-2xl">Summary</CardTitle>
                 <CardDescription>Overview of items, quantities, and total cost.</CardDescription>

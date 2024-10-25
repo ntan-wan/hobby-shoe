@@ -4,13 +4,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Product } from "@/lib/types";
 
 interface ProductDetailsProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof ProductDetailsVariants> {
-    product: any;
+    product: Product;
 }
 
 const ProductDetailsVariants = cva(["border border-gray-300 rounded-md p-4 h-full min-h-60"]);
-export const ProductDetails = ({ product, className, ...props }: ProductDetailsProps) => {
+export const ProductDetails = ({ product, className }: ProductDetailsProps) => {
 
     return (
         <Tabs defaultValue="details" className={cn(ProductDetailsVariants(), className)}>

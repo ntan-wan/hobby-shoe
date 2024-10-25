@@ -22,7 +22,7 @@ const CartItem = () => {
                 {/* Details */}
                 <div>
                     <p className="font-bold uppercase text-sm">New Balance</p>
-                    <p className="text-xs uppercase font-medium text-gray-800">2002 men's sneakers shoes - grey</p>
+                    <p className="text-xs uppercase font-medium text-gray-800">2002 men&apos;s sneakers shoes - grey</p>
                     <p className="font-bold text-red-700 text-xs">MYR 413.00</p>
                     <p className="line-through text-xs text-gray-500">MYR 689.00</p>
                     <p className="text-xs">
@@ -44,14 +44,16 @@ const CartItem = () => {
     );
 };
 
-interface CartPreviewProps extends React.HTMLAttributes<HTMLButtonElement> {}
+interface CartPreviewProps extends React.HTMLAttributes<HTMLButtonElement> {
+	test?: string
+}
 export const CartPreview = forwardRef<HTMLButtonElement, CartPreviewProps>(({ className, ...props }, ref) => {
 
 	const router = useRouter();
 
     return (
         <Popover>
-            <PopoverTrigger className={cn(className)} {...props}>
+            <PopoverTrigger className={cn(className)} {...props} ref={ref}>
                 <ShoppingCart size={16} />
             </PopoverTrigger>
             <PopoverContent className="w-[400px]" align="end">

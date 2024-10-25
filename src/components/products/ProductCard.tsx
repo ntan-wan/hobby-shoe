@@ -1,20 +1,20 @@
 import Image from "next/image";
-
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Product } from "@/lib/types";
 import React, { forwardRef } from "react";
 import { cva } from "class-variance-authority";
-import { cn } from "@/lib/utils";
 import { Rating } from "@/components/ui/Rating";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
-    product: any;
+    product: Product;
 }
 
 const productCardVariants = cva(["cursor-pointer hover:border-gray-400 transition-colors"]);
 
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ product, className, ...props }, ref) => {
     return (
-        <Card className={cn(productCardVariants(), className)} {...props}>
+        <Card className={cn(productCardVariants(), className)} {...props} ref={ref}>
             <CardHeader className="border-b border-slate-200">
                 <div className="relative h-52">
                     <Image fill src={product?.thumbnail ?? "/imgs/product-placeholder.png"} alt="product image" className="w-full object-cover" sizes="(min-width: 1024px) 16vw , 100vw"/>
@@ -29,12 +29,12 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ produ
                 <div className="mt-1 flex gap-2 items-center">
                     {/* Current price */}
                     <p className="text-red-700 font-bold text-lg">
-                        <span>{(product?.currency ?? "-") + ' ' + (product?.currentPrice?.toFixed(2) ?? '-')}</span>
+                        <span>{(product?.currency ?? "-") + ' ' + (product?.prices?.current?.value?.toFixed(2) ?? '-')}</span>
                     </p>
 
                     {/* Prev Price */}
                     <p className="line-through text-sm">
-                        <span>{(product?.currency ?? "-") + ' ' + (product?.prevPrice?.toFixed(2) ?? '-')}</span>
+                        <span>{(product?.currency ?? "-") + ' ' + (product?.prices?.previous?.value?.toFixed(2) ?? '-')}</span>
                     </p>
                 </div>
             </CardContent>

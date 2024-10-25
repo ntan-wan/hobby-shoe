@@ -3,8 +3,7 @@ import { ProductOrder } from "@/components/products/ProductOrder";
 import { ProductDetails } from "@/components/products/ProductDetails";
 import { ProductSuggestions } from "@/components/products/ProductSuggesstions";
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-    const { id } = params;
+export default function ProductDetailPage() {
     const dummyProduct = {
         id: 1,
         brand: "New Balance",

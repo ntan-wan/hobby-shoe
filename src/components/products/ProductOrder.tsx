@@ -7,33 +7,24 @@ import { Rating } from "@/components/ui/Rating";
 import { Button } from "@/components/ui/button";
 import { FreeShippingBanner } from "@/components/ui/FreeShippingBanner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Product, Region } from "@/lib/types";
 
 const ProductOrderVariants = cva(["border border-gray-300 rounded-md p-4 h-full flex flex-col"]);
 
 interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
-    product: any;
+    product: Product;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
 
-    const [selectedUOM, setSelectedUOM] = useState("US");
+    const [selectedUOM, setSelectedUOM] = useState<Region>("US");
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
 	const [loading, setLoading] = useState(false);
 
     const uom = Object.keys(product?.sizes ?? {});
-    const availableSize = product?.sizes[selectedUOM].find((s) => s.size == selectedSize) ?? [];
-	let prevPrice = null;
-	let currentPrice = null;
+    const availableSize = product?.sizes[selectedUOM].find((s) => s.size == selectedSize);
 
-	product?.prices?.forEach((p) => {
-		if (p.endDate === null) {
-			currentPrice = p.price.toFixed(2);
-		} else {
-			prevPrice = p.price.toFixed(2);
-		}
-	})
-
-    const handleSelectUOM = (uom: string) => {
+    const handleSelectUOM = (uom: Region) => {
         setSelectedUOM(uom);
 		setSelectedSize(product?.sizes[uom][0]?.size ?? 0);
     };
@@ -50,7 +41,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
 	}
 
     return (
-        <div className={cn(ProductOrderVariants())}>
+        <div className={cn(ProductOrderVariants())} ref={ref} {...props}>
             <p className="text-2xl font-bold text-red-700 uppercase">{product?.brand}</p>
             <p className="text-4xl font-bold uppercase mt-2">{product?.name}</p>
             <p className="text-xl mt-4">
@@ -59,10 +50,10 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             </p>
             <p className="text-2xl mt-4 flex items-center gap-2">
                 <span className="font-bold text-red-700">
-                    {product?.currency} {currentPrice ?? '-'}
+                    {product?.currency} {product?.prices?.current?.value ?? '-'}
                 </span>
                 <span className="line-through text-base">
-                    {product?.currency} {prevPrice ?? '-'}
+                    {product?.currency} {product?.prices?.previous?.value ?? '-'}
                 </span>
             </p>
 
@@ -70,7 +61,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             <Rating score={product?.rating} className="" />
 
             {/* UOM */}
-            <Select onValueChange={(value) => handleSelectUOM(value)}>
+            <Select onValueChange={(value : Region) => handleSelectUOM(value)}>
                 <SelectTrigger className="w-full mt-8">
                     <SelectValue placeholder="UOM" />
                 </SelectTrigger>
