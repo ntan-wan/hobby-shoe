@@ -12,18 +12,22 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+
+        //# mikro-orm.
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "target": "ES2022",
+
         "plugins": [
             {
                 "name": "next"
             }
         ],
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/*"],
+            "@entities": ["./src/entities/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-    "exclude": ["node_modules"],
-
-	//# mikroORM.
-    "experimentalDecorators": true
+    "exclude": ["node_modules"]
 }
