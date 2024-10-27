@@ -35,7 +35,7 @@ export const CustomCarousel = forwardRef<HTMLDivElement, CustomCarouselProps>(({
 				setSelectedIndex(api.selectedScrollSnap());
 			});
 		}
-	}, [api]);
+	}, [api ,selectedIndex]);
 
 	/* METHODS */
     const handleSelectImg = (index: number) => {
