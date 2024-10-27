@@ -42,6 +42,7 @@ body {
         --radius: 0.5rem;
 
         --navbar-height: 69px;
+		--footer-height: 380px;
         --color-highlight: 251 191 36;
     }
     .dark {
@@ -135,6 +136,10 @@ body {
     input.c-inputnumber[type="number"] {
         -moz-appearance: textfield;
     }
+
+	.c-page {
+		min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+	}
 }
 
 @layer utilities {

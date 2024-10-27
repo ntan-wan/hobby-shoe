@@ -46,11 +46,11 @@ export const CustomCarousel = forwardRef<HTMLDivElement, CustomCarouselProps>(({
     };
 
     return (
-        <div ref={ref} className={cn("flex gap-5", className)} {...props}>
+        <div ref={ref} className={cn("flex gap-5 h-full", className)} {...props}>
             <div className="flex flex-col gap-4">
                 {urls?.length ? (
                     urls.map((url, index) => (
-                        <ProductBox className={cn(selectedIndex == index && "border-gray-500")} imgUrl={url} key={url} onClick={() => handleSelectImg(index)} />
+                        <ProductBox className={cn(selectedIndex == index && "border-gray-500")} imgUrl={url} key={url+index} onClick={() => handleSelectImg(index)} />
                     ))
                 ) : (
                     <ProductBox className={cn("flex items-center justify-center")}>
@@ -63,8 +63,8 @@ export const CustomCarousel = forwardRef<HTMLDivElement, CustomCarouselProps>(({
                 {urls?.length ? (
                     <Carousel className="max-w-2xl" opts={{ loop: true }} setApi={setApi} >
                         <CarouselContent>
-                            {urls?.map((url) => (
-                                <CarouselItem className="flex justify-center" key={url}>
+                            {urls?.map((url, index) => (
+                                <CarouselItem className="flex justify-center" key={url+index}>
                                     <div className="relative min-w-[708px] min-h-[708px]">
                                         <Image fill src={url} alt="product image" className="w-full object-cover" sizes="(min-width: 1024px) 50vw , 100vw" priority/>
                                     </div>

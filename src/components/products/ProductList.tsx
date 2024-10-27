@@ -1,13 +1,10 @@
 "use client";
 
+import { Product } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEY } from "@/lib/constants";
-import { getProducts } from "@/servicesFrontend/product.service";
 import { CircleX } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCard } from "@/components/products/ProductCard";
-import { Product } from "@/lib/types";
 
 interface FilterBadegeProps extends React.HTMLAttributes<HTMLDivElement> {
     label: string;
@@ -22,21 +19,25 @@ const FilterBadege = ({ label, onRemove, ...props }: FilterBadegeProps) => {
     );
 };
 
-export const ProductList = () => {
+interface ProductListProps extends React.HTMLAttributes<HTMLDivElement> {
+	products: Product [];
+	isLoading?: boolean;
+}
+export const ProductList = ({products = [], isLoading = false, ...props} : ProductListProps) => {
     /* HOOKS */
     const router = useRouter();
-    const { data: products, isFetching: productIsFetching } = useQuery({
-        queryKey: [QUERY_KEY.PRODUCTS],
-        select: (res) => res?.data,
-        queryFn: getProducts,
-    });
+    // const { data: products, isFetching: productIsFetching } = useQuery({
+    //     queryKey: [QUERY_KEY.PRODUCTS],
+    //     select: (res) => res?.data,
+    //     queryFn: getProducts,
+    // });
 	
     /* EVENT HANDLERS */
     const handleSelectProduct = (productId: string | number) => {
         router.push(`/products/${productId}`);
     };
 
-    if (productIsFetching) {
+    if (isLoading) {
         return (
             <div className="flex flex-wrap -m-2">
                 {Array.from({ length: 8 }).map((_, index) => (
@@ -54,7 +55,7 @@ export const ProductList = () => {
                 <FilterBadege label="Men" onRemove={() => {}} />
             </div>
 
-            <div className="mt-2 flex flex-wrap items-center -m-2">
+            <div className="mt-2 flex flex-wrap items-center -m-2" {...props}>
                 {products?.length ? (
                     products?.map((product : Product) => (
                         <div key={product.id} className="p-2  w-full lg:w-3/12">

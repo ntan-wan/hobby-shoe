@@ -7,12 +7,14 @@ export class ProductFactory extends Factory<Product> {
 
     definition(): Partial<Product> {
         return {
-			name: faker.commerce.productName(),
-			brand: faker.company.name(),
-			description: faker.commerce.productDescription(),
-			thumbnail: faker.image.url(),
-			images: [faker.image.url()],
-			color: faker.color.human(),
+            name: faker.commerce.productName(),
+            brand: faker.company.name(),
+            description: faker.commerce.productDescription(),
+            thumbnail: `https://loremflickr.com/320/240/shoes`,
+            images: Array(3)
+                .fill(null)
+                .map(() => `https://loremflickr.com/708/708/shoes`),
+            color: faker.color.human(),
         };
     }
 }

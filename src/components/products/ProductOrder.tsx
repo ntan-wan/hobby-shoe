@@ -22,7 +22,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
 	const [loading, setLoading] = useState(false);
 
     const uom = Object.keys(product?.sizes ?? {});
-    const availableSize = product?.sizes[selectedUOM].find((s) => s.size == selectedSize);
+    const availableSize = product?.sizes?.[selectedUOM].find((s) => s.size == selectedSize);
 
     const handleSelectUOM = (uom: Region) => {
         setSelectedUOM(uom);
@@ -76,7 +76,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
 
             {/* Size */}
             <div className="mt-2 flex flex-wrap -m-2">
-                {product.sizes[selectedUOM]
+                {product.sizes?.[selectedUOM]
                     ?.map((s) => s.size)
                     ?.map((size) => (
                         <div className="w-full lg:w-3/12 p-2" key={size}>

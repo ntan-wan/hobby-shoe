@@ -14,9 +14,25 @@ const getORM = async () => {
     return global.__MikroORM__;
 };
 
-const withORM = (handler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
+export const withORM = (handler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
     const orm = await getORM();
     return RequestContext.create(orm.em, async () => handler(req, res));
 };
 
-export default withORM;
+export const withORMWithoutRequest = async <T>(callback: () => Promise<T>): Promise<T> => {
+    const orm = await getORM();
+    return RequestContext.create(orm.em, () => callback());
+};
+
+
+export const getEM = () => {
+    const em = RequestContext.getEntityManager();
+    if (!em) throw new Error("Entity manager not found. Are you in a 'withORM'-wrapped Context?");
+    return em;
+};
+
+export const getForkedEM = async () => {
+	const orm = await getORM();
+	if (!orm) throw new Error("ORM not found.");
+	return orm?.em?.fork();
+}
