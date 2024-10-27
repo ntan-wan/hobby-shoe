@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
-interface IconProps extends React.SVGProps<SVGSVGElement> {
+interface IconProps extends React.SVGProps<SVGSVGElement>, VariantProps<typeof iconVariants> {
 	fill?: string;
 }
 

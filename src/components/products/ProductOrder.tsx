@@ -40,6 +40,8 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
 		setLoading(false);
 	}
 
+	console.log('Undefined variable', quantity);
+
     return (
         <div className={cn(ProductOrderVariants())} ref={ref} {...props}>
             <p className="text-2xl font-bold text-red-700 uppercase">{product?.brand}</p>

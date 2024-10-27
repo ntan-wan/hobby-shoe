@@ -11,22 +11,22 @@ interface CustomQuantitySelectorProps extends React.InputHTMLAttributes<HTMLInpu
     onDecrement?: (quantity: number) => void;
 }
 
-export const CustomQuantitySelector = ({ onIncrement = (quantity) => {}, onDecrement = (quanitty) => {}, className, ...props }: CustomQuantitySelectorProps) => {
+export const CustomQuantitySelector = ({ onIncrement, onDecrement, className, ...props }: CustomQuantitySelectorProps) => {
     const [quantity, setQuantity] = useState(1);
 
     const handleIncrement = () => {
         const newQuantity = quantity + 1;
         setQuantity((prev) => prev + 1);
-        onIncrement(newQuantity);
+        onIncrement?.(newQuantity);
     };
     const handleDecrement = () => {
         const newQuantity = quantity - 1;
         setQuantity((prev) => prev - 1);
-        onDecrement(newQuantity);
+        onDecrement?.(newQuantity);
     };
 
     return (
-        <div className={cn("flex items-center h-[30px] w-[160px]", className)}>
+        <div className={cn("flex items-center h-[30px] w-[160px]", className)} {...props}>
             <Button className="rounded-r-none h-full" onClick={handleIncrement}>
                 <Plus size={16} />
             </Button>
