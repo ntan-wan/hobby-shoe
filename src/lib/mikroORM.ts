@@ -14,7 +14,7 @@ const getORM = async () => {
     return global.__MikroORM__;
 };
 
-export const withORM = (handler : (req: NextRequest, res: NextResponse) => Promise<unknown>) => async (req: NextRequest, res: NextResponse) => {
+export const withORM = (handler : (req: NextRequest, res: NextResponse) => Promise<void | Response>) => async (req: NextRequest, res: NextResponse) => {
     const orm = await getORM();
     return RequestContext.create(orm.em, async () => handler(req, res));
 };
