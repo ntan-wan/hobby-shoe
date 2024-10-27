@@ -1,6 +1,6 @@
 import { MikroORM, RequestContext } from "@mikro-orm/core";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import config from '@/configs/mikroORM.config'
+import { NextRequest, NextResponse } from "next/server";
 
 declare global {
     // eslint-disable-next-line no-var
@@ -14,7 +14,7 @@ const getORM = async () => {
     return global.__MikroORM__;
 };
 
-export const withORM = (handler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
+export const withORM = (handler : (req: NextRequest, res: NextResponse) => Promise<unknown>) => async (req: NextRequest, res: NextResponse) => {
     const orm = await getORM();
     return RequestContext.create(orm.em, async () => handler(req, res));
 };
