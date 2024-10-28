@@ -15,6 +15,8 @@ export class ProductFactory extends Factory<Product> {
                 .fill(null)
                 .map(() => `https://loremflickr.com/708/708/shoes`),
             color: faker.color.human(),
+			createdAt: new Date(),
+			updatedAt: new Date(),
         };
     }
 }
