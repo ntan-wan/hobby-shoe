@@ -8,3 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 export function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function findLatestDate(dates: string[]) {
+    dates.reduce((latest, current) => {
+        return new Date(current) > new Date(latest) ? current : latest;
+    });
+}

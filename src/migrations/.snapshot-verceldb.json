@@ -25,6 +25,76 @@
           "length": 255,
           "mappedType": "string"
         },
+        "symbol": {
+          "name": "symbol",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "exchange_rate": {
+          "name": "exchange_rate",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "0",
+          "mappedType": "integer"
+        }
+      },
+      "name": "currencies",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "currencies_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
         "brand": {
           "name": "brand",
           "type": "varchar(255)",
@@ -137,16 +207,6 @@
           "default": "'now()'",
           "mappedType": "datetime"
         },
-        "end_date": {
-          "name": "end_date",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 255,
-          "mappedType": "string"
-        },
         "value": {
           "name": "value",
           "type": "int",
@@ -158,6 +218,15 @@
         },
         "product_id": {
           "name": "product_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "currency_id": {
+          "name": "currency_id",
           "type": "int",
           "unsigned": false,
           "autoincrement": false,
@@ -192,6 +261,18 @@
             "id"
           ],
           "referencedTableName": "public.products",
+          "updateRule": "cascade"
+        },
+        "prices_currency_id_foreign": {
+          "constraintName": "prices_currency_id_foreign",
+          "columnNames": [
+            "currency_id"
+          ],
+          "localTableName": "public.prices",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.currencies",
           "updateRule": "cascade"
         }
       },

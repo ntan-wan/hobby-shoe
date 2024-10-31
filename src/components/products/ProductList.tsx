@@ -24,6 +24,7 @@ interface ProductListProps extends React.HTMLAttributes<HTMLDivElement> {
 	isLoading?: boolean;
 }
 export const ProductList = ({products = [], isLoading = false, ...props} : ProductListProps) => {
+
     /* HOOKS */
     const router = useRouter();
     // const { data: products, isFetching: productIsFetching } = useQuery({

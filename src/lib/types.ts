@@ -6,13 +6,21 @@ export interface Category {
     description?: string;
 }
 
-/* PRICES */
-export interface PriceInfo {
-	value: number;
+/* CURRENCY */
+export interface Currency {
+	id: number;
+	name: string;
+	symbol: string;
+	code: string;
+	exchangeRate: number;
 }
-export interface ProductPrices {
-	current: PriceInfo;
-	previous: PriceInfo;
+
+/* PRICES */
+interface Price {
+	id: number;
+	startDate: string;
+	value: number;
+	currency: Currency;
 }
 
 /* PRODUCT */
@@ -27,7 +35,7 @@ export interface Product {
     name: string;
     sizes: { [key in Region]: { size: number; quantity: number }[] };
     thumbnail?: string;
-	prices: ProductPrices;
+	prices: Price[];
 	rating: number;
 }
 

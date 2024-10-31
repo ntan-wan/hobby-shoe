@@ -13,6 +13,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const productCardVariants = cva(["cursor-pointer hover:border-gray-400 transition-colors"]);
 
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ product, className, ...props }, ref) => {
+
     return (
         <Card className={cn(productCardVariants(), className)} {...props} ref={ref}>
             <CardHeader className="border-b border-slate-200">
@@ -29,13 +30,13 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ produ
                 <div className="mt-1 flex gap-2 items-center">
                     {/* Current price */}
                     <p className="text-red-700 font-bold text-lg">
-                        <span>{(product?.currency ?? "-") + ' ' + (product?.prices?.current?.value?.toFixed(2) ?? '-')}</span>
+                        <span>{(product?.prices?.[0]?.currency?.code ?? "-") + ' ' + (product?.prices?.[0]?.value?.toFixed(2) ?? '-')}</span>
                     </p>
 
                     {/* Prev Price */}
-                    <p className="line-through text-sm">
-                        <span>{(product?.currency ?? "-") + ' ' + (product?.prices?.previous?.value?.toFixed(2) ?? '-')}</span>
-                    </p>
+                    {product?.prices?.[1] && <p className="line-through text-sm">
+                        <span>{(product?.prices?.[1]?.currency?.code ?? "-") + ' ' + (product?.prices?.[1]?.value?.toFixed(2) ?? '-')}</span>
+                    </p>}
                 </div>
             </CardContent>
             <CardFooter className="flex gap-2">

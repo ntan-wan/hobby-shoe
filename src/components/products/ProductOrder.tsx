@@ -15,18 +15,18 @@ interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
     product: Product;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
-
+    console.log("products", product);
     const [selectedUOM, setSelectedUOM] = useState<Region>("US");
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
-	const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const uom = Object.keys(product?.sizes ?? {});
     const availableSize = product?.sizes?.[selectedUOM].find((s) => s.size == selectedSize);
 
     const handleSelectUOM = (uom: Region) => {
         setSelectedUOM(uom);
-		setSelectedSize(product?.sizes[uom][0]?.size ?? 0);
+        setSelectedSize(product?.sizes[uom][0]?.size ?? 0);
     };
     const handleSelectSize = (value: number | string) => {
         setSelectedSize(value);
@@ -34,13 +34,13 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
     const handleSelectQuantity = (value: string) => {
         setQuantity(value);
     };
-	const handleAddItem = async () => {
-		setLoading(true);
-		await sleep(500);
-		setLoading(false);
-	}
+    const handleAddItem = async () => {
+        setLoading(true);
+        await sleep(500);
+        setLoading(false);
+    };
 
-	console.log('Undefined variable', quantity);
+    console.log("Undefined variable", quantity);
 
     return (
         <div className={cn(ProductOrderVariants())} ref={ref} {...props}>
@@ -52,18 +52,21 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             </p>
             <p className="text-2xl mt-4 flex items-center gap-2">
                 <span className="font-bold text-red-700">
-                    {product?.currency} {product?.prices?.current?.value ?? '-'}
+                    {product?.prices?.[0]?.currency?.code} {product?.prices?.[0]?.value ?? "-"}
                 </span>
-                <span className="line-through text-base">
-                    {product?.currency} {product?.prices?.previous?.value ?? '-'}
-                </span>
+
+                {product?.prices?.[1] && (
+                    <span className="line-through text-base">
+                        {product?.prices?.[1]?.currency?.code} {product?.prices?.[1]?.value ?? "-"}
+                    </span>
+                )}
             </p>
 
             {/* Rating */}
             <Rating score={product?.rating} className="" />
 
             {/* UOM */}
-            <Select onValueChange={(value : Region) => handleSelectUOM(value)}>
+            <Select onValueChange={(value: Region) => handleSelectUOM(value)}>
                 <SelectTrigger className="w-full mt-8">
                     <SelectValue placeholder="UOM" />
                 </SelectTrigger>
@@ -111,7 +114,9 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                 <Button className="w-full p-6" variant="outline">
                     Buy Now
                 </Button>
-                <Button loading={loading} onClick={handleAddItem} className="w-full p-6">Add to Cart</Button>
+                <Button loading={loading} onClick={handleAddItem} className="w-full p-6">
+                    Add to Cart
+                </Button>
             </div>
         </div>
     );

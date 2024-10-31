@@ -2,7 +2,7 @@ import { CustomCarousel } from "@/components/ui/CustomCarousel";
 import { ProductOrder } from "@/components/products/ProductOrder";
 import { ProductDetails } from "@/components/products/ProductDetails";
 import { ProductSuggestions } from "@/components/products/ProductSuggesstions";
-import { getProductById } from "@/services/product.service";
+import { getProductByIdWithPrices } from "@/services/product.service";
 import {  withORMWithoutRequest } from "@/lib/mikroORM";
 
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
@@ -10,7 +10,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 	const {id} = params;
 
 	const product = await withORMWithoutRequest(async () => {
-		const _product = await getProductById(Number(id));
+		const _product = await getProductByIdWithPrices(Number(id));
 		return JSON.parse(JSON.stringify(_product));
     });
 
