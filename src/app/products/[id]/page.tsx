@@ -10,8 +10,8 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 	const {id} = params;
 
 	const product = await withORMWithoutRequest(async () => {
-		const _product = await getProductByIdWithPrices(Number(id));
-		return JSON.parse(JSON.stringify(_product));
+		const data = await getProductByIdWithPrices(Number(id));
+		return JSON.parse(JSON.stringify(data));
     });
 
 

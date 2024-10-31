@@ -11,7 +11,7 @@ export const getProductById = async (id: number) => {
 }
 export const getProductByIdWithPrices = async (id: number) => {
 	const em = getEM();
-	const product = await em.findOne(Product, id, {populate: ["prices.currency"], orderBy: {"prices": {startDate: "desc"}}});
+	const product = await em.findOne(Product, id, {populate: ["prices.currency", "categories"], orderBy: {"prices": {startDate: "desc"}}});
 	return product;
 }
 
@@ -23,6 +23,6 @@ export const getProductWithPrices = async (id: number) => {
 
 export const getAllProductsWithPrices = async () => {
 	const em = getEM();
-	const products = await em.find(Product, {}, { populate: ["prices.currency"], orderBy: {'prices' : {startDate: 'desc'}} });
+	const products = await em.find(Product, {}, { populate: ["prices.currency", "categories"], orderBy: {'prices' : {startDate: 'desc'}} });
 	return products;
 }

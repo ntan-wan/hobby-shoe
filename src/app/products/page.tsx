@@ -17,7 +17,7 @@ export default async function ProductsPage() {
                 <div>
                     <ProductFilter />
                 </div>
-                <div className="w-full">
+                <div className="w-full pb-12">
                     <ProductList products={products} />
                 </div>
             </div>

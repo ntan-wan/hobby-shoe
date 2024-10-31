@@ -15,9 +15,12 @@
         "mg-down-all": "npx mikro-orm migration:down --config ./src/configs/mikroORM.config.ts --to 0",
         "mg-list": "npx mikro-orm migration:list --config ./src/configs/mikroORM.config.ts",
         "mg-fresh": "npx mikro-orm migration:fresh --config ./src/configs/mikroORM.config.ts",
+        "mg-pending": "npx mikro-orm migration:pending --config ./src/configs/mikroORM.config.ts",
         "mg-fresh-seed": "npx mikro-orm migration:fresh --config ./src/configs/mikroORM.config.ts --seed",
         "seed-create": "npx mikro-orm seeder:create --config ./src/configs/mikroORM.config.ts",
-		"seed-run": "npx mikro-orm seeder:run --config ./src/configs/mikroORM.config.ts"
+        "seed-run": "npx mikro-orm seeder:run --config ./src/configs/mikroORM.config.ts",
+        "cache-clear": "npx mikro-orm cache:clear --config ./src/configs/mikroORM.config.ts",
+        "schema-update": "npx mikro-orm schema:update --config ./src/configs/mikroORM.config.ts -d"
     },
     "dependencies": {
         "@mikro-orm/core": "^6.3.13",

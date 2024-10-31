@@ -15,7 +15,6 @@ interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
     product: Product;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
-    console.log("products", product);
     const [selectedUOM, setSelectedUOM] = useState<Region>("US");
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
@@ -47,17 +46,17 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             <p className="text-2xl font-bold text-red-700 uppercase">{product?.brand}</p>
             <p className="text-4xl font-bold uppercase mt-2">{product?.name}</p>
             <p className="text-xl mt-4">
-                <span className="font-medium">{product?.categories?.map((category) => category.name).join(", ")}</span> |{" "}
+                <span className="font-medium">{product?.categories?.length ? product?.categories?.map((category) => category.name).join(", ") : "-"}</span> |{" "}
                 <span className="text-gray-400">0198-ADIIF188300O004</span>
             </p>
             <p className="text-2xl mt-4 flex items-center gap-2">
                 <span className="font-bold text-red-700">
-                    {product?.prices?.[0]?.currency?.code} {product?.prices?.[0]?.value ?? "-"}
+                    {product?.prices?.[0]?.currency?.code} {product?.prices?.[0]?.value?.toFixed(2) ?? "-"}
                 </span>
 
                 {product?.prices?.[1] && (
                     <span className="line-through text-base">
-                        {product?.prices?.[1]?.currency?.code} {product?.prices?.[1]?.value ?? "-"}
+                        {product?.prices?.[1]?.currency?.code} {product?.prices?.[1]?.value?.toFixed(2) ?? "-"}
                     </span>
                 )}
             </p>
