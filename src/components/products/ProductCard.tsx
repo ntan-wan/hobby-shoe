@@ -13,6 +13,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const productCardVariants = cva(["cursor-pointer hover:border-gray-400 transition-colors"]);
 
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(({ product, className, ...props }, ref) => {
+	   
     return (
         <Card className={cn(productCardVariants(), className)} {...props} ref={ref}>
             <CardHeader className="border-b border-slate-200">

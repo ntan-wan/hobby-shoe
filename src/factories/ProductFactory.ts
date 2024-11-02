@@ -17,6 +17,7 @@ export class ProductFactory extends Factory<Product> {
             color: faker.color.human(),
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			rating: faker.number.int({ min: 1, max: 5 }),
         };
     }
 }

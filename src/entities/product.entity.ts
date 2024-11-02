@@ -1,6 +1,7 @@
 import { Entity, Property, PrimaryKey, OneToMany, ManyToMany, Collection } from "@mikro-orm/core";
 import { Price } from "@/entities/price.entity";
 import { Category } from "@/entities/category.entity";
+import { Review } from "./review.entity";
 
 @Entity({ tableName: "products" })
 export class Product {
@@ -25,6 +26,9 @@ export class Product {
     @Property()
     color!: string;
 
+	@Property({default: 0})
+	rating!: number;
+
     @Property({ onCreate: () => new Date(), default: "now()" })
     createdAt!: Date;
 
@@ -33,6 +37,9 @@ export class Product {
 
     @OneToMany(() => Price, (price) => price.product)
     prices!: Price[];
+
+	@OneToMany(() => Review, (review) => review.product)
+	reviews?: Collection<Review>;
 
     @ManyToMany(() => Category, category => category.products, { owner: true })
     categories = new Collection<Category>(this);

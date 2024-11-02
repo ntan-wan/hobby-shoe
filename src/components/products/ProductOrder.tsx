@@ -62,7 +62,9 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             </p>
 
             {/* Rating */}
-            <Rating score={product?.rating} className="" />
+			<div className="flex gap-3 items-center">
+            	<Rating score={product.rating} /> <span>({product?.rating})</span>
+			</div>
 
             {/* UOM */}
             <Select onValueChange={(value: Region) => handleSelectUOM(value)}>
@@ -77,7 +79,6 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                     ))}
                 </SelectContent>
             </Select>
-
             {/* Size */}
             <div className="mt-2 flex flex-wrap -m-2">
                 {product.sizes?.[selectedUOM]
@@ -90,9 +91,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                         </div>
                     ))}
             </div>
-
             <FreeShippingBanner className="mt-8" />
-
             {/* Quantity */}
             <label className="c-label mt-4">Quantity</label>
             <Select defaultValue="1" onValueChange={(value) => handleSelectQuantity(value)}>
@@ -107,7 +106,6 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                     ))}
                 </SelectContent>
             </Select>
-
             {/* Buy */}
             <div className="flex items-center gap-2 mt-auto">
                 <Button className="w-full p-6" variant="outline">

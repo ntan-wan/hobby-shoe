@@ -11,6 +11,5 @@ export class Category {
 	name!: string;
 
 	@ManyToMany(() => Product, product => product.categories,{mappedBy: 'categories'})
-	// @ManyToMany({mappedBy: 'categories'})
 	products = new Collection<Product>(this);
 }

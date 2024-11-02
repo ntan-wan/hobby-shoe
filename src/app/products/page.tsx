@@ -1,12 +1,12 @@
 import { ProductFilter } from "@/components/products/ProductFilter";
 import { ProductList } from "@/components/products/ProductList";
 import { withORMWithoutRequest } from "@/lib/mikroORM";
-import { getAllProductsWithPrices } from "@/services/product.service";
+import { getProducts } from "@/services/product.service";
 
 export default async function ProductsPage() {
 
 	const products = await withORMWithoutRequest(async () => {
-		const data = await getAllProductsWithPrices();
+		const data = await getProducts();
 		const res = JSON.parse(JSON.stringify(data));
 		return res;
 	})
