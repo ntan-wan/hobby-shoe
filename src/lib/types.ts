@@ -23,6 +23,13 @@ interface Price {
 	currency: Currency;
 }
 
+interface Size {
+	id: number;
+	standard: string;
+	value: number;
+	quantity: number;
+}
+
 /* PRODUCT */
 export interface Product {
     id: number;
@@ -33,7 +40,7 @@ export interface Product {
     description: string;
     images?: string[];
     name: string;
-    sizes: { [key in Region]: { size: number; quantity: number }[] };
+	sizes: Size[],
     thumbnail?: string;
 	prices: Price[];
 	rating: number;

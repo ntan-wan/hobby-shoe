@@ -1,7 +1,8 @@
 import { Entity, Property, PrimaryKey, OneToMany, ManyToMany, Collection } from "@mikro-orm/core";
 import { Price } from "@/entities/price.entity";
 import { Category } from "@/entities/category.entity";
-import { Review } from "./review.entity";
+import { Review } from "@/entities/review.entity";
+import { ProductSizes } from "@/entities/productSizes.entity";
 
 @Entity({ tableName: "products" })
 export class Product {
@@ -43,4 +44,7 @@ export class Product {
 
     @ManyToMany(() => Category, category => category.products, { owner: true })
     categories = new Collection<Category>(this);
+
+	@OneToMany(() => ProductSizes, (productSizes) => productSizes.product)
+	sizes = new Collection<ProductSizes>(this);
 }

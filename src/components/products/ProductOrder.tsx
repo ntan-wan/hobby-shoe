@@ -1,13 +1,13 @@
 "use client";
 
 import { cn, sleep } from "@/lib/utils";
-import { forwardRef, useState } from "react";
+import { Product, Region } from "@/lib/types";
+import { forwardRef, useEffect, useState } from "react";
 import { cva } from "class-variance-authority";
 import { Rating } from "@/components/ui/Rating";
 import { Button } from "@/components/ui/button";
 import { FreeShippingBanner } from "@/components/ui/FreeShippingBanner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Product, Region } from "@/lib/types";
 
 const ProductOrderVariants = cva(["border border-gray-300 rounded-md p-4 h-full flex flex-col"]);
 
@@ -15,17 +15,23 @@ interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
     product: Product;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
+	
     const [selectedUOM, setSelectedUOM] = useState<Region>("US");
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
     const [loading, setLoading] = useState(false);
 
-    const uom = Object.keys(product?.sizes ?? {});
-    const availableSize = product?.sizes?.[selectedUOM].find((s) => s.size == selectedSize);
+    const uom = [... new Set(product?.sizes?.map((s) => s.standard))];
+    const availableSize = product?.sizes?.filter((s) => s.standard == selectedUOM);
+
+    useEffect(() => {
+        setSelectedUOM((uom?.[0] as Region) ?? "US");
+        setSelectedSize(product?.sizes.find((s) => s.standard == selectedUOM)?.value ?? 0);
+    }, []);
 
     const handleSelectUOM = (uom: Region) => {
         setSelectedUOM(uom);
-        setSelectedSize(product?.sizes[uom][0]?.size ?? 0);
+        setSelectedSize(product?.sizes.find((s) => s.standard == uom)?.value ?? 0);
     };
     const handleSelectSize = (value: number | string) => {
         setSelectedSize(value);
@@ -62,36 +68,39 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             </p>
 
             {/* Rating */}
-			<div className="flex gap-3 items-center">
-            	<Rating score={product.rating} /> <span>({product?.rating})</span>
-			</div>
+            <div className="flex gap-3 items-center">
+                <Rating score={product.rating} /> <span>({product?.rating})</span>
+            </div>
 
             {/* UOM */}
-            <Select onValueChange={(value: Region) => handleSelectUOM(value)}>
+            <Select onValueChange={(value: Region) => handleSelectUOM(value)} defaultValue={selectedUOM}>
                 <SelectTrigger className="w-full mt-8">
                     <SelectValue placeholder="UOM" />
                 </SelectTrigger>
                 <SelectContent>
-                    {uom.map((unit) => (
-                        <SelectItem key={unit} value={unit}>
+                    {uom.map((unit, index) => (
+                        <SelectItem key={`${unit}-${index}`} value={unit}>
                             {unit}
                         </SelectItem>
                     ))}
                 </SelectContent>
             </Select>
+
             {/* Size */}
             <div className="mt-2 flex flex-wrap -m-2">
-                {product.sizes?.[selectedUOM]
-                    ?.map((s) => s.size)
+                {product.sizes
+                    ?.filter((s) => s.standard == selectedUOM)
                     ?.map((size) => (
-                        <div className="w-full lg:w-3/12 p-2" key={size}>
-                            <Button className={cn("w-full", selectedSize == size ? "c-highlight" : "")} variant="outline" onClick={() => handleSelectSize(size)}>
-                                {size}
+                        <div className="w-full lg:w-3/12 p-2" key={size.id}>
+                            <Button className={cn("w-full", selectedSize == size.value ? "c-highlight" : "")} variant="outline" onClick={() => handleSelectSize(size.value)}>
+                                {size.value}
                             </Button>
                         </div>
                     ))}
             </div>
+
             <FreeShippingBanner className="mt-8" />
+
             {/* Quantity */}
             <label className="c-label mt-4">Quantity</label>
             <Select defaultValue="1" onValueChange={(value) => handleSelectQuantity(value)}>
@@ -99,13 +108,14 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
                     <SelectValue placeholder="Quantity" />
                 </SelectTrigger>
                 <SelectContent>
-                    {Array.from({ length: availableSize?.quantity ?? 0 }).map((_, index) => (
+                    {Array.from({ length: availableSize?.find((s) => s.standard == selectedUOM && s.value == selectedSize)?.quantity ?? 0 }).map((_, index) => (
                         <SelectItem key={index} value={String(index + 1)}>
                             {index + 1}
                         </SelectItem>
                     ))}
                 </SelectContent>
             </Select>
+			
             {/* Buy */}
             <div className="flex items-center gap-2 mt-auto">
                 <Button className="w-full p-6" variant="outline">
