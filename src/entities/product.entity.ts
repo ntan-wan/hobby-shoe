@@ -15,10 +15,10 @@ export class Product {
     @Property()
     brand!: string;
 
-    @Property()
+    @Property({nullable: true})
     thumbnail?: string;
 
-    @Property()
+    @Property({nullable: true})
     images?: string[];
 
     @Property()

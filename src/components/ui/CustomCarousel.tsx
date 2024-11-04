@@ -54,7 +54,7 @@ export const CustomCarousel = forwardRef<HTMLDivElement, CustomCarouselProps>(({
                     ))
                 ) : (
                     <ProductBox className={cn("flex items-center justify-center")}>
-                        <p className="italic text-gray-500 text-center p-4">No images</p>
+                        <p className="italic text-gray-500 text-center p-4 text-sm">No images</p>
                     </ProductBox>
                 )}
             </div>
