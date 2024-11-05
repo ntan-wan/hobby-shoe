@@ -26,23 +26,23 @@ export class DatabaseSeeder extends Seeder {
             .each((product) => {
                 product.categories.set(this.getRandomCategories(categories));
             })
-            .make(10);
+            .make(100);
 
 		new ProductSizeFactory(em).each((productSize) => {
 			productSize.product = this.getRandomElement(products);
 			productSize.size = this.getRandomElement(sizes);
-		}).make(20);
+		}).make(100);
 		
 		new ReviewFactory(em).each((review) => {
 			review.user = this.getRandomElement(users);
 			review.product = this.getRandomElement(products);
-		}).make(20);
+		}).make(100);
 
 		new PriceFactory(em)
 			.each((price) => {
 			price.currency = this.getRandomElement(currencies);
 			price.product = this.getRandomElement(products);
-		}).make(20);
+		}).make(100);
 
     }
 

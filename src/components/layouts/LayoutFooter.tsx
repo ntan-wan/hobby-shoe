@@ -50,7 +50,7 @@ export const LayoutFooter = ({ className, ...props }: LayoutFooterProps) => {
 	]
 
     return (
-        <footer className={cn(footerVariants(), className)} {...props}>
+        <footer className={cn(footerVariants(), className)} {...props} id="footer">
             <div className="flex flex-wrap -m-2">
                 <div className="p-2 w-full lg:w-3/12">
                     <ul className="c-footer-container-item">

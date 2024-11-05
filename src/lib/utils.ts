@@ -14,3 +14,10 @@ export function findLatestDate(dates: string[]) {
         return new Date(current) > new Date(latest) ? current : latest;
     });
 }
+
+export const scrollToBottom = () => {
+	window.scrollTo({
+		top: document.documentElement.scrollHeight,
+        behavior: "smooth"
+    });
+}

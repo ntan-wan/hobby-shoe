@@ -1,7 +1,15 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
+import { cva, VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
-export const ProductFilter = () => {
+interface ProductFilterProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof productFilterVariants> {
+
+}
+
+const productFilterVariants = cva(["min-w-52 max-w-52"]);
+
+export const ProductFilter = ({className, ...props} : ProductFilterProps) => {
     const options = {
         gender: [
             { id: "men", label: "Men" },
@@ -20,7 +28,7 @@ export const ProductFilter = () => {
     };
 
     return (
-        <div className="min-w-52 max-w-52">
+        <div className={cn(productFilterVariants(), className)} {...props}>
             <Accordion type="single" collapsible>
                 <AccordionItem value="gender">
                     <AccordionTrigger>Gender</AccordionTrigger>

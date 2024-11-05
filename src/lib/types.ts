@@ -46,6 +46,13 @@ export interface Product {
 	rating: number;
 }
 
+export interface ProductsData {
+	products: Product[];
+	totalProducts: number;
+	totalPages: number;
+	currentPage: number;
+}
+
 /* REVIEW */
 export interface Review {
 	id: number;

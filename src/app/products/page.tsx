@@ -4,21 +4,20 @@ import { withORMWithoutRequest } from "@/lib/mikroORM";
 import { getProducts } from "@/services/product.service";
 
 export default async function ProductsPage() {
-
-	const products = await withORMWithoutRequest(async () => {
-		const data = await getProducts();
-		const res = JSON.parse(JSON.stringify(data));
-		return res;
-	})
+    const productsData = await withORMWithoutRequest(async () => {
+        const data = await getProducts();
+        const res = JSON.parse(JSON.stringify(data));
+        return res;
+    });
 
     return (
-        <div>
+        <div className="c-page">
             <div className="flex gap-4">
                 <div>
-                    <ProductFilter />
+                    <ProductFilter className="sticky top-[var(--navbar-height)]"/>
                 </div>
-                <div className="w-full pb-12">
-                    <ProductList products={products} />
+                <div className="w-full pb-12 pt-5">
+                    <ProductList products={productsData} />
                 </div>
             </div>
         </div>

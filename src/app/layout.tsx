@@ -30,7 +30,7 @@ export default function RootLayout({
         <html lang="en">
             <QueryProvider>
                 <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                    <LayoutNavbar className="sticky top-0 z-50" />
+                    <LayoutNavbar className="fixed top-0 z-50" />
 
                     <div className="px-4">{children}</div>
 

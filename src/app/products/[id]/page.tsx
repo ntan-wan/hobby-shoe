@@ -16,7 +16,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
 
     return (
-        <div className="lg:px-6">
+        <div className="c-page lg:px-6">
             <div className="flex gap-5">
                 <div className="w-full lg:w-8/12">
                     <CustomCarousel urls={product?.images ?? []} />
