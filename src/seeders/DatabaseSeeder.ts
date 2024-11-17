@@ -5,14 +5,9 @@ import { PriceFactory } from "@/factories/PriceFactory";
 import { CurrencyFactory } from "@/factories/CurrencyFactory";
 import { CategoryFactory } from "@/factories/CategoryFactory";
 import { Category } from "@/entities/category.entity";
-import { Currency } from "@/entities/currency.entity";
-import { Product } from "@/entities/product.entity";
-import { User } from "@/entities/user.entity";
-import { Review } from "@/entities/review.entity";
 import { UserFactory } from "@/factories/userFactory";
 import { ReviewFactory } from "@/factories/ReviewFactory";
 import { ProductSizeFactory } from "@/factories/ProductSizeFactory";
-import { Size } from "@/entities/size.entity";
 import { SizeFactory } from "@/factories/SizeFactory";
 
 export class DatabaseSeeder extends Seeder {
@@ -26,12 +21,12 @@ export class DatabaseSeeder extends Seeder {
             .each((product) => {
                 product.categories.set(this.getRandomCategories(categories));
             })
-            .make(100);
+            .make(10);
 
 		new ProductSizeFactory(em).each((productSize) => {
 			productSize.product = this.getRandomElement(products);
 			productSize.size = this.getRandomElement(sizes);
-		}).make(100);
+		}).make(40);
 		
 		new ReviewFactory(em).each((review) => {
 			review.user = this.getRandomElement(users);
@@ -42,7 +37,7 @@ export class DatabaseSeeder extends Seeder {
 			.each((price) => {
 			price.currency = this.getRandomElement(currencies);
 			price.product = this.getRandomElement(products);
-		}).make(100);
+		}).make(20);
 
     }
 
