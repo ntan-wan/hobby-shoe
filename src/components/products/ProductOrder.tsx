@@ -1,9 +1,14 @@
 "use client";
 
-import { cn, sleep } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Product, Region } from "@/lib/types";
-import { forwardRef, useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useAppDispatch } from "@/lib/hooks";
 import { cva } from "class-variance-authority";
+import { addToCart } from "@/lib/slices/cartSlice";
+import { forwardRef, useEffect, useState } from "react";
+import { CartItem } from "@/lib/types";
+
 import { Rating } from "@/components/ui/Rating";
 import { Button } from "@/components/ui/button";
 import { FreeShippingBanner } from "@/components/ui/FreeShippingBanner";
@@ -15,23 +20,25 @@ interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
     product: Product;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
-	
-    const [selectedUOM, setSelectedUOM] = useState<Region>("US");
+    const uom = [...new Set(product?.sizes?.map((s) => s.standard))];
+    const [selectedStandard, setselectedStandard] = useState(uom[0]);
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
-    const [loading, setLoading] = useState(false);
 
-    const uom = [... new Set(product?.sizes?.map((s) => s.standard))];
-    const availableSize = product?.sizes?.filter((s) => s.standard == selectedUOM);
+    const availableSize = product?.sizes?.filter((s) => s.standard == selectedStandard);
+    const availableQuantity = availableSize?.find((s) => s.standard == selectedStandard && s.value == selectedSize)?.quantity;
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        setSelectedUOM((uom?.[0] as Region) ?? "US");
-        setSelectedSize(product?.sizes.find((s) => s.standard == selectedUOM)?.value ?? 0);
+        setSelectedSize(product?.sizes.find((s) => s.standard == selectedStandard)?.value ?? 0);
     }, []);
+    const { toast } = useToast();
 
+    /* EVENT HANDLERS */
     const handleSelectUOM = (uom: Region) => {
-        setSelectedUOM(uom);
+        setselectedStandard(uom);
         setSelectedSize(product?.sizes.find((s) => s.standard == uom)?.value ?? 0);
+        setQuantity(1);
     };
     const handleSelectSize = (value: number | string) => {
         setSelectedSize(value);
@@ -40,15 +47,25 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
         setQuantity(value);
     };
     const handleAddItem = async () => {
-        setLoading(true);
-        await sleep(500);
-        setLoading(false);
-    };
 
-    console.log("Undefined variable", quantity);
+		const cartItem : CartItem = {
+			product,
+			quantity: Number(quantity),
+			size: Number(selectedSize),
+			standard: selectedStandard
+		};
+        dispatch(addToCart(structuredClone(cartItem)));
+        toast({
+            title: "Success",
+            variant: "success",
+			duration: 3000,
+            description: "Added Successfully.",
+        });
+    };
 
     return (
         <div className={cn(ProductOrderVariants())} ref={ref} {...props}>
+            {/* <Toaster /> */}
             <p className="text-2xl font-bold text-red-700 uppercase">{product?.brand}</p>
             <p className="text-4xl font-bold uppercase mt-2">{product?.name}</p>
             <p className="text-xl mt-4">
@@ -73,7 +90,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             </div>
 
             {/* UOM */}
-            <Select onValueChange={(value: Region) => handleSelectUOM(value)} defaultValue={selectedUOM}>
+            <Select onValueChange={(value: Region) => handleSelectUOM(value)} defaultValue={selectedStandard}>
                 <SelectTrigger className="w-full mt-8">
                     <SelectValue placeholder="UOM" />
                 </SelectTrigger>
@@ -89,7 +106,7 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
             {/* Size */}
             <div className="mt-2 flex flex-wrap -m-2">
                 {product.sizes
-                    ?.filter((s) => s.standard == selectedUOM)
+                    ?.filter((s) => s.standard == selectedStandard)
                     ?.map((size) => (
                         <div className="w-full lg:w-3/12 p-2" key={size.id}>
                             <Button className={cn("w-full", selectedSize == size.value ? "c-highlight" : "")} variant="outline" onClick={() => handleSelectSize(size.value)}>
@@ -103,25 +120,25 @@ export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ pro
 
             {/* Quantity */}
             <label className="c-label mt-4">Quantity</label>
-            <Select defaultValue="1" onValueChange={(value) => handleSelectQuantity(value)}>
+            <Select defaultValue="1" onValueChange={(value) => handleSelectQuantity(value)} disabled={!availableQuantity} value={String(quantity)}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Quantity" />
                 </SelectTrigger>
                 <SelectContent>
-                    {Array.from({ length: availableSize?.find((s) => s.standard == selectedUOM && s.value == selectedSize)?.quantity ?? 0 }).map((_, index) => (
+                    {Array.from({ length: availableQuantity ?? 0 }).map((_, index) => (
                         <SelectItem key={index} value={String(index + 1)}>
                             {index + 1}
                         </SelectItem>
                     ))}
                 </SelectContent>
             </Select>
-			
+
             {/* Buy */}
             <div className="flex items-center gap-2 mt-auto">
                 <Button className="w-full p-6" variant="outline">
                     Buy Now
                 </Button>
-                <Button loading={loading} onClick={handleAddItem} className="w-full p-6">
+                <Button  onClick={handleAddItem} className="w-full p-6">
                     Add to Cart
                 </Button>
             </div>

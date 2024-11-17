@@ -1,10 +1,21 @@
 import { forwardRef } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { CartItem } from "@/lib/types";
 
-export const CartSummary = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ ...props }, ref) => {
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface CartSummaryProps extends React.HTMLAttributes<HTMLDivElement> {
+	cartItems: CartItem[]
+}
+export const CartSummary = forwardRef<HTMLDivElement, CartSummaryProps>(({ cartItems,...props }, ref) => {
+
+	const calculateTotal = (cartItems : CartItem[]) => {
+		const total = cartItems.reduce((total, cartItem) => total + cartItem.product.prices?.[0]?.value * cartItem.quantity, 0)?.toFixed(2);
+		return `MYR ${total}`;
+	}
+
     return (
         <Card {...props} ref={ref}>
             <CardHeader>
@@ -15,14 +26,14 @@ export const CartSummary = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
                 {/* Subtotal */}
                 <p className="flex items-center justify-between">
                     <span>Subtotal</span>
-                    <span>MYR 1,000.00</span>
+                    <span>{calculateTotal(cartItems)}</span>
                 </p>
 
                 <Separator className="my-4" />
 
-                <p className="flex items-center justify-between">
-                    <span>Order Amount</span>
-                    <span>MYR 1,000.00</span>
+                <p className="flex items-center justify-between font-bold">
+                    <span >Order Amount</span>
+                    <span>{calculateTotal(cartItems)}</span>
                 </p>
 
                 <Separator className="my-4" />

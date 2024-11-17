@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-	overscroll-behavior: none;
+	/* overscroll-behavior: none; */
 }
 
 body {
@@ -155,4 +155,12 @@ body {
     .c-highlight {
         @apply bg-red-700 text-white hover:!bg-red-700/90 hover:!text-white;
     }
+
+	.c-title {
+		@apply font-bold;
+
+		&.c-title-1 {
+			@apply text-2xl
+		}
+	}
 }

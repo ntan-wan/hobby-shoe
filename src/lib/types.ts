@@ -65,11 +65,8 @@ export interface Review {
 }
 
 export interface CartItem {
-    id: number;
-    price: number;
-    subtotal: number;
-    product: Product;
+	product: Product;
     size: number;
-    region: string;
+    standard: string;
     quantity: number;
 }

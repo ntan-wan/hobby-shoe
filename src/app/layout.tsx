@@ -4,6 +4,8 @@ import "./globals.css";
 import { LayoutNavbar } from "@/components/layouts/LayoutNavbar";
 import { LayoutFooter } from "@/components/layouts/LayoutFooter";
 import { QueryProvider } from "@/providers/QueryProvider";
+import StoreProvider from "@/providers/StoreProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -28,15 +30,19 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <QueryProvider>
-                <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                    <LayoutNavbar className="fixed top-0 z-50" />
+            <StoreProvider>
+                <QueryProvider>
+                    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 
-                    <div className="px-4">{children}</div>
+                        <LayoutNavbar className="fixed top-0 z-50" />
 
-                    <LayoutFooter className="mt-auto" />
-                </body>
-            </QueryProvider>
+                        <Toaster />
+                        <div className="px-4">{children}</div>
+
+                        <LayoutFooter className="mt-auto" />
+                    </body>
+                </QueryProvider>
+            </StoreProvider>
         </html>
     );
 }

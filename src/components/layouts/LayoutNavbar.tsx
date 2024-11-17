@@ -2,11 +2,11 @@ import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { Input } from "@/components/ui/input";
-import { Search} from "lucide-react";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { CartPreview } from "../cart/CartPreview";
 import Link from "next/link";
+import { Search} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { CartPreview } from "../cart/CartPreview";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 
 interface LayoutNavbarProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof navbarVariants> {}
 interface MenuItems {
