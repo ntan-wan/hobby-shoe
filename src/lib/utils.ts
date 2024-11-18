@@ -21,3 +21,9 @@ export const scrollToBottom = () => {
         behavior: "smooth"
     });
 }
+
+export const formatPrice = (price : number) : string => {
+	if (!price) return "-";
+
+	return price.toFixed(2);
+}

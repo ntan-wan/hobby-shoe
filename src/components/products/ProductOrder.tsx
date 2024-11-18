@@ -1,13 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Product, Region } from "@/lib/types";
+import { CartItem } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { useAppDispatch } from "@/lib/hooks";
+import { Product, Region } from "@/lib/types";
 import { cva } from "class-variance-authority";
 import { addToCart } from "@/lib/slices/cartSlice";
 import { forwardRef, useEffect, useState } from "react";
-import { CartItem } from "@/lib/types";
 
 import { Rating } from "@/components/ui/Rating";
 import { Button } from "@/components/ui/button";
@@ -20,19 +20,23 @@ interface ProductOrderProps extends React.HTMLAttributes<HTMLDivElement> {
     product: Product;
 }
 export const ProductOrder = forwardRef<HTMLDivElement, ProductOrderProps>(({ product, ...props }, ref) => {
+
+	/* STATES */
     const uom = [...new Set(product?.sizes?.map((s) => s.standard))];
     const [selectedStandard, setselectedStandard] = useState(uom[0]);
     const [selectedSize, setSelectedSize] = useState<number | string>(0);
     const [quantity, setQuantity] = useState<number | string>(1);
 
+	/* VARIABLES */
     const availableSize = product?.sizes?.filter((s) => s.standard == selectedStandard);
     const availableQuantity = availableSize?.find((s) => s.standard == selectedStandard && s.value == selectedSize)?.quantity;
-    const dispatch = useAppDispatch();
 
+	/* HOOKS */
+    const dispatch = useAppDispatch();
+    const { toast } = useToast();
     useEffect(() => {
         setSelectedSize(product?.sizes.find((s) => s.standard == selectedStandard)?.value ?? 0);
     }, []);
-    const { toast } = useToast();
 
     /* EVENT HANDLERS */
     const handleSelectUOM = (uom: Region) => {

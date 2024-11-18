@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import { CartItem } from "@/lib/types";
+import { formatPrice } from "@/lib/utils";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,14 +8,14 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface CartSummaryProps extends React.HTMLAttributes<HTMLDivElement> {
-	cartItems: CartItem[]
+    cartItems: CartItem[];
 }
-export const CartSummary = forwardRef<HTMLDivElement, CartSummaryProps>(({ cartItems,...props }, ref) => {
-
-	const calculateTotal = (cartItems : CartItem[]) => {
-		const total = cartItems.reduce((total, cartItem) => total + cartItem.product.prices?.[0]?.value * cartItem.quantity, 0)?.toFixed(2);
-		return `MYR ${total}`;
-	}
+export const CartSummary = forwardRef<HTMLDivElement, CartSummaryProps>(({ cartItems, ...props }, ref) => {
+    const calculateTotal = (cartItems: CartItem[]) => {
+        const total = formatPrice(cartItems.reduce((total, cartItem) => total + cartItem.product.prices?.[0]?.value * cartItem.quantity, 0));
+        const currency = cartItems?.[0]?.product?.prices?.[0]?.currency?.code;
+        return `${currency} ${total}`;
+    };
 
     return (
         <Card {...props} ref={ref}>
@@ -32,7 +33,7 @@ export const CartSummary = forwardRef<HTMLDivElement, CartSummaryProps>(({ cartI
                 <Separator className="my-4" />
 
                 <p className="flex items-center justify-between font-bold">
-                    <span >Order Amount</span>
+                    <span>Order Amount</span>
                     <span>{calculateTotal(cartItems)}</span>
                 </p>
 

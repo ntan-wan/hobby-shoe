@@ -35,7 +35,6 @@ export interface Product {
     id: number;
     brand: string;
     color: string;
-    currency: string;
     categories: Category[];
     description: string;
     images?: string[];

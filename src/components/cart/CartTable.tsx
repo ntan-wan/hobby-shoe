@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { CartItem } from "@/lib/types";
 import { useAppDispatch } from "@/lib/hooks";
+import { cn, formatPrice } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { updateCartItemQuantity, removeFromCart } from "@/lib/slices/cartSlice";
 
@@ -20,7 +20,6 @@ interface CartTableProps extends React.HTMLAttributes<HTMLTableElement> {
     cartItems: CartItem[];
 }
 export const CartTable = forwardRef<HTMLTableElement, CartTableProps>(({ cartItems, className, ...props }, ref) => {
-
     /* HOOKS */
     const { toast } = useToast();
     const dispatch = useAppDispatch();
@@ -96,10 +95,13 @@ export const CartTable = forwardRef<HTMLTableElement, CartTableProps>(({ cartIte
                         </TableCell>
                         <TableCell className="">
                             <p className="text-red-700 font-bold">
-                                MYR {cartItem.product.prices?.[0]?.value} 
-								{/* <span className="text-black">(-30%)</span> */}
+                                {cartItem.product.prices?.[0]?.currency?.code} {formatPrice(cartItem.product.prices?.[0]?.value)}
                             </p>
-                            {cartItem.product.prices?.[1] && <p className="text-sm line-through text-gray-400">MYR {cartItem.product.prices?.[1]?.value}</p>}
+                            {cartItem.product.prices?.[1] && (
+                                <p className="text-sm line-through text-gray-400">
+                                    {cartItem.product.prices?.[1]?.currency?.code} {formatPrice(cartItem.product.prices?.[1]?.value)}
+                                </p>
+                            )}
                         </TableCell>
                         <TableCell className="">
                             <CustomQuantitySelector
@@ -108,7 +110,7 @@ export const CartTable = forwardRef<HTMLTableElement, CartTableProps>(({ cartIte
                                 onIncrement={(value) => handleIncrement(value, cartItem.product.id)}
                             />
                         </TableCell>
-                        <TableCell className=" text-right">MYR {(cartItem.product.prices?.[0]?.value * cartItem.quantity).toFixed(2)}</TableCell>
+                        <TableCell className=" text-right">MYR {formatPrice(cartItem.product.prices?.[0]?.value * cartItem.quantity)}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

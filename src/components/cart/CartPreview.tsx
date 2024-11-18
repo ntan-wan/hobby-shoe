@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { forwardRef } from "react";
 import { useRouter } from "next/navigation";
 import type {  CartItem } from "@/lib/types";
@@ -43,8 +43,8 @@ const CartItem = ({ item, ...props }: CartItemProps) => {
                 <div>
                     <p className="font-bold uppercase text-sm">{item.product.brand}</p>
                     <p className="text-xs uppercase font-medium text-gray-800">{item.product.name}</p>
-                    <p className="font-bold text-red-700 text-xs">{item.product.prices[0] ? item.product.prices?.[0]?.currency?.code + " " + item.product.prices?.[0]?.value : "-"}</p>
-                    {item.product.prices[1] && <p className="line-through text-xs text-gray-500">{item.product.prices[1]?.currency?.code + " " + item.product.prices[1]?.value}</p>}
+                    <p className="font-bold text-red-700 text-xs">{item.product.prices[0] ? item.product.prices?.[0]?.currency?.code + " " + formatPrice(item.product.prices?.[0]?.value) : "-"}</p>
+                    {item.product.prices[1] && <p className="line-through text-xs text-gray-500">{item.product.prices[1]?.currency?.code + " " + formatPrice(item.product.prices[1]?.value)}</p>}
                     <p className="text-xs">
                         Size:<span>{item.standard} {item.size}</span>
                     </p>
@@ -94,7 +94,7 @@ export const CartPreview = forwardRef<HTMLButtonElement, React.HTMLAttributes<HT
 
                 <div className="border-t border-slate-200 pt-3">
                     <p className="flex items-center justify-between font-bold">
-                        <span>SUBTOTAL</span> <span>MYR {calculateSubtotal(items)}</span>
+                        <span>SUBTOTAL</span> <span>MYR {formatPrice(calculateSubtotal(items))}</span>
                     </p>
 
                     {/* Action */}
